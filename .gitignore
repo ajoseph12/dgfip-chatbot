@@ -1,0 +1,27 @@
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.ruff_cache/
+
+# Virtual env / uv
+.venv/
+
+# Secrets
+.env
+
+# OS
+.DS_Store
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Derived data artifacts (keep raw inputs, ignore generated)
+data/processed/*
+!data/processed/.gitkeep
+
+# Build
+dist/
+build/
+docs/
+*.egg-info/

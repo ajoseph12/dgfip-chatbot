@@ -1,0 +1,49 @@
+[project]
+name = "dgfip-chatbot"
+version = "0.1.0"
+description = "Retrieval-first FAQ chatbot routing DGFiP particulier questions to the most relevant fiche pratique."
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "pandas>=2.2",
+    "numpy>=1.26",
+    "pydantic>=2.7",
+    "pydantic-settings>=2.3",
+    "python-dotenv>=1.0",
+]
+
+# Optional groups installed per phase: `uv sync --group ml`, etc.
+# `dev` is installed by default on `uv sync`.
+[dependency-groups]
+dev = [
+    "ruff>=0.5",
+    "pytest>=8.2",
+]
+ml = [          # Phase 2 — embeddings, index, retrieval
+    "sentence-transformers>=3.0",
+    "torch>=2.2",
+    "faiss-cpu>=1.8",
+]
+llm = [         # Phase 4 — Mistral answer layer
+    "mistralai>=1.0",
+]
+app = [         # Phase 6 — Streamlit demo
+    "streamlit>=1.36",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/dgfip_chatbot"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
