@@ -1,7 +1,10 @@
-.PHONY: setup lint format test eval app
+.PHONY: setup lint format test data eval app
 
 setup:        ## Create/sync the environment (base + dev)
 	uv sync
+
+data:         ## Build processed chunks + dev/test split (Phase 1)
+	uv run python -m dgfip_chatbot.data.build
 
 lint:         ## Lint with ruff
 	uv run ruff check .

@@ -6,6 +6,7 @@ the official source. Built as a POC for a technical test.
 
 - **Why & for whom:** [`docs/business_context.md`](docs/business_context.md)
 - **Build plan:** [`docs/phases/global_phase.md`](docs/phases/global_phase.md)
+- **Datasets:** [`data/README.md`](data/README.md)
 
 ## Quickstart
 
@@ -14,7 +15,8 @@ Requires [`uv`](https://docs.astral.sh/uv/) (it will fetch Python 3.12 automatic
 ```bash
 git clone <repo> && cd dgfip-chatbot
 make setup        # uv sync — creates .venv from the lockfile (base + dev)
-make test         # run the smoke tests
+make data         # build the chunk table + dev/test split into data/processed/
+make test         # run the test suite
 ```
 
 > **Why uv?** A single tool replacing pip + venv + pyenv + pip-tools. The committed
@@ -26,6 +28,7 @@ make test         # run the smoke tests
 | Command | Does |
 |---|---|
 | `make setup` | Sync the environment (base + dev) |
+| `make data` | Build processed chunks + dev/test split *(Phase 1)* |
 | `make lint` / `make format` | Lint / format with ruff |
 | `make test` | Run pytest |
 | `make eval` | Retrieval eval harness *(Phase 3)* |
@@ -44,8 +47,8 @@ src/dgfip_chatbot/
   eval/            # Phase 3 — metrics harness
   generation/      # Phase 4 — optional Mistral answer layer
   app/             # Phase 6 — Streamlit demo
-data/raw/          # provided CSVs (KB + eval questions)
-data/processed/    # derived artifacts (gitignored)
+data/raw/          # provided CSVs (KB + eval questions) — see data/README.md
+data/processed/    # `make data` output: chunks.parquet + question splits (gitignored)
 tests/
 docs/              # business context + phased build plan
 ```
@@ -57,5 +60,7 @@ from Phase 4). The real `.env` is gitignored.
 
 ## Status
 
-**Phase 0 — scaffolding.** Retrieval core (Phases 1–3) is the graded deliverable; the
-chat/UI layer is a thin demo on top. See the build plan for details.
+**Phases 0–1 done** — scaffolding + data ingestion (`make data` builds the chunk table and
+the stratified dev/test split). **Next: Phase 2** (embeddings + retrieval). The retrieval
+core (Phases 1–3) is the graded deliverable; the chat/UI layer is a thin demo on top. See
+the build plan for details.

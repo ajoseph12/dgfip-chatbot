@@ -36,6 +36,16 @@ class Settings(BaseSettings):
     llm_model: str = "mistral-small-latest"
     mistral_api_key: str = ""
 
+    # --- Chunking (Phase 1; size measured in whitespace "words" as a token proxy) ---
+    chunk_cap: float = 256.0  # max chunk size; set to math.inf for whole-fiche chunks
+    chunk_overlap: int = 32
+    strip_title: bool = False
+
+    # --- Eval split (Phase 1) ---
+    test_size: float = 0.30
+    random_seed: int = 42
+    stratify_by: str = "fiche_id"
+
     @property
     def kb_path(self) -> Path:
         """Absolute path to the knowledge-base CSV (113 fiches)."""
@@ -45,6 +55,23 @@ class Settings(BaseSettings):
     def questions_path(self) -> Path:
         """Absolute path to the eval question CSV."""
         return self.raw_data_dir / self.questions_csv
+
+    # --- Phase 1 output artifacts (under data/processed/) ---
+    @property
+    def chunks_path(self) -> Path:
+        return self.processed_dir / "chunks.parquet"
+
+    @property
+    def chunks_sample_path(self) -> Path:
+        return self.processed_dir / "chunks_sample.jsonl"
+
+    @property
+    def questions_dev_path(self) -> Path:
+        return self.processed_dir / "questions_dev.parquet"
+
+    @property
+    def questions_test_path(self) -> Path:
+        return self.processed_dir / "questions_test.parquet"
 
 
 settings = Settings()
