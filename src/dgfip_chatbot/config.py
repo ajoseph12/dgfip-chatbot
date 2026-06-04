@@ -27,8 +27,13 @@ class Settings(BaseSettings):
     kb_csv: str = "info_particulier_impot.csv"
     questions_csv: str = "questions_fiches_fip.csv"
 
-    # --- Retrieval (filled in Phase 2) ---
-    embedding_model: str = ""
+    # --- Retrieval (Phase 2) ---
+    embedding_model: str = "intfloat/multilingual-e5-base"
+    embedding_revision: str = ""  # pin a HF commit for full reproducibility; "" = latest
+    embedding_device: str = "cpu"
+    embedding_batch_size: int = 32
+    query_prefix: str = "query: "  # e5 requires query/passage prefixes
+    passage_prefix: str = "passage: "
     top_k: int = 5
 
     # --- LLM (filled in Phase 4) ---
@@ -72,6 +77,19 @@ class Settings(BaseSettings):
     @property
     def questions_test_path(self) -> Path:
         return self.processed_dir / "questions_test.parquet"
+
+    # --- Phase 2 index artifacts ---
+    @property
+    def embeddings_path(self) -> Path:
+        return self.processed_dir / "embeddings.npy"
+
+    @property
+    def embeddings_meta_path(self) -> Path:
+        return self.processed_dir / "embeddings_meta.parquet"
+
+    @property
+    def embeddings_info_path(self) -> Path:
+        return self.processed_dir / "embeddings_info.json"
 
 
 settings = Settings()

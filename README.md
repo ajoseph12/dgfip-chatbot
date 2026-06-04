@@ -29,6 +29,7 @@ make test         # run the test suite
 |---|---|
 | `make setup` | Sync the environment (base + dev) |
 | `make data` | Build processed chunks + dev/test split *(Phase 1)* |
+| `make index` | Embed + cache the chunk index *(Phase 2; needs `uv sync --group ml`)* |
 | `make lint` / `make format` | Lint / format with ruff |
 | `make test` | Run pytest |
 | `make eval` | Retrieval eval harness *(Phase 3)* |
@@ -70,7 +71,7 @@ from Phase 4). The real `.env` is gitignored.
 
 ## Status
 
-**Phases 0–1 done** — scaffolding + data ingestion (`make data` builds the chunk table and
-the stratified dev/test split). **Next: Phase 2** (embeddings + retrieval). The retrieval
-core (Phases 1–3) is the graded deliverable; the chat/UI layer is a thin demo on top. See
-the build plan for details.
+**Phases 0–2 done** — scaffolding, data ingestion (`make data`), and dense retrieval
+(`make index` → `retrieve(query) → ranked fiches`; e5-base + NumPy cosine). **Next:
+Phase 3** (eval harness, BM25 baseline, metrics). The retrieval core (Phases 1–3) is the
+graded deliverable; the chat/UI layer is a thin demo on top. See the build plan for details.

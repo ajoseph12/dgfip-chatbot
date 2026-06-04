@@ -20,10 +20,9 @@ dev = [
     "ruff>=0.5",
     "pytest>=8.2",
 ]
-ml = [          # Phase 2 — embeddings, index, retrieval
+ml = [          # Phase 2 — embeddings, index, retrieval (NumPy-exact, so no faiss)
     "sentence-transformers>=3.0",
     "torch>=2.2",
-    "faiss-cpu>=1.8",
 ]
 llm = [         # Phase 4 — Mistral answer layer
     "mistralai>=1.0",
@@ -48,6 +47,7 @@ packages = ["src/dgfip_chatbot"]
 [tool.ruff]
 line-length = 100
 target-version = "py312"
+extend-exclude = ["notebooks"]  # exploratory notebooks aren't held to module lint rules
 
 [tool.ruff.lint]
 select = ["E", "F", "I", "UP", "B"]
