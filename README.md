@@ -32,10 +32,10 @@ make test         # run the test suite
 | `make lint` / `make format` | Lint / format with ruff |
 | `make test` | Run pytest |
 | `make eval` | Retrieval eval harness *(Phase 3)* |
-| `make app` | Streamlit demo *(Phase 6)* |
+| `make app` | Streamlit demo *(Phases 5–6)* |
 
 Heavier dependencies are installed per phase: `uv sync --group ml` (Phase 2),
-`--group llm` (Phase 4), `--group app` (Phase 6).
+`--group llm` (Phase 4, optional), `--group app` (Phases 5–6).
 
 ## Project structure
 
@@ -45,13 +45,23 @@ src/dgfip_chatbot/
   data/            # Phase 1 — load / clean / chunk
   retrieval/       # Phase 2 — embeddings, index, retriever
   eval/            # Phase 3 — metrics harness
-  generation/      # Phase 4 — optional Mistral answer layer
-  app/             # Phase 6 — Streamlit demo
+  generation/      # Phase 4 (OPTIONAL) — grounded answer layer (Mistral); not required
+  app/             # Phases 5–6 — Streamlit app (UI + serving; no separate backend)
 data/raw/          # provided CSVs (KB + eval questions) — see data/README.md
 data/processed/    # `make data` output: chunks.parquet + question splits (gitignored)
 tests/
 docs/              # business context + phased build plan
 ```
+
+## Data exploration
+
+A first look (see [`notebooks/phase1_eda.ipynb`](notebooks/phase1_eda.ipynb)):
+
+- **Themes:** 5 categories; **property & housing is the largest (~44% of questions)**, not income declaration.
+- **Length:** fiches vary widely (median ~4.9k chars) → motivates chunking.
+- **Skew:** questions per fiche range from 6 to 55.
+- **Vocabulary overlap (key signal):** most questions share many content words with their target fiche (favourable to **BM25**), but a meaningful tail does not (needs **semantic embeddings**) → together motivating a **hybrid** retriever.
+- **Caveat:** questions are LLM-generated from the fiches, so this overlap is likely **optimistic** versus real user phrasing.
 
 ## Configuration
 
