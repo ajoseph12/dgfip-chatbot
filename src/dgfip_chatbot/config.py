@@ -36,6 +36,13 @@ class Settings(BaseSettings):
     passage_prefix: str = "passage: "
     top_k: int = 5
 
+    # --- Evaluation (Phase 3) ---
+    eval_k: list[int] = [1, 3, 5, 10]  # hit@k cutoffs to report
+    rrf_c: int = 60  # Reciprocal Rank Fusion constant
+    bm25_k1: float = 1.5
+    bm25_b: float = 0.75
+    reports_dir: Path = PROJECT_ROOT / "reports"
+
     # --- LLM (filled in Phase 4) ---
     llm_provider: str = "mistral"
     llm_model: str = "mistral-small-latest"
@@ -90,6 +97,10 @@ class Settings(BaseSettings):
     @property
     def embeddings_info_path(self) -> Path:
         return self.processed_dir / "embeddings_info.json"
+
+    @property
+    def eval_report_path(self) -> Path:
+        return self.reports_dir / "eval.md"
 
 
 settings = Settings()

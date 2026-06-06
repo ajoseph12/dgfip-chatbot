@@ -1,4 +1,4 @@
-.PHONY: setup lint format test data index eval app
+.PHONY: setup lint format test data index eval experiments app
 
 setup:        ## Create/sync the environment (base + dev)
 	uv sync
@@ -18,8 +18,11 @@ format:       ## Auto-format with ruff
 test:         ## Run the test suite
 	uv run pytest
 
-eval:         ## Run the retrieval eval harness (Phase 3)
-	@echo "Eval harness — implemented in Phase 3."
+eval:         ## FINAL test-set eval of the chosen config — run once (Phase 3)
+	uv run python -m dgfip_chatbot.eval.run
+
+experiments:  ## Dev-set hybrid ablations: title prepend / semantic chunking
+	uv run python -m dgfip_chatbot.eval.experiments
 
 app:          ## Launch the Streamlit demo (Phase 6)
 	@echo "Streamlit demo — implemented in Phase 6."

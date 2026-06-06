@@ -51,6 +51,7 @@ src/dgfip_chatbot/
 data/raw/          # provided CSVs (KB + eval questions) — see data/README.md
 data/processed/    # `make data` output: chunks.parquet + question splits (gitignored)
 tests/
+reports/           # `make eval` output (eval.md)
 docs/              # business context + phased build plan
 ```
 
@@ -71,7 +72,8 @@ from Phase 4). The real `.env` is gitignored.
 
 ## Status
 
-**Phases 0–2 done** — scaffolding, data ingestion (`make data`), and dense retrieval
-(`make index` → `retrieve(query) → ranked fiches`; e5-base + NumPy cosine). **Next:
-Phase 3** (eval harness, BM25 baseline, metrics). The retrieval core (Phases 1–3) is the
-graded deliverable; the chat/UI layer is a thin demo on top. See the build plan for details.
+**Phases 0–3 done — the graded retrieval core is complete.** Scaffolding, data ingestion
+(`make data`), dense retrieval (`make index`), and evaluation (`make eval`) comparing
+dense / BM25 / hybrid on a held-out test set. **Hybrid wins** — test hit@1 **0.82**, hit@3
+**0.97**, MRR **0.89**; full numbers in [`reports/eval.md`](reports/eval.md). **Next:
+Phase 4** (optional LLM answer layer) and a thin demo UI — both layered on top of this core.

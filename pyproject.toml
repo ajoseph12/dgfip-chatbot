@@ -20,9 +20,11 @@ dev = [
     "ruff>=0.5",
     "pytest>=8.2",
 ]
-ml = [          # Phase 2 — embeddings, index, retrieval (NumPy-exact, so no faiss)
+ml = [          # Phase 2/3 — embeddings, retrieval, BM25, eval (NumPy-exact, so no faiss)
     "sentence-transformers>=3.0",
     "torch>=2.2",
+    "rank-bm25>=0.2",
+    "tabulate>=0.9",
 ]
 llm = [         # Phase 4 — Mistral answer layer
     "mistralai>=1.0",
