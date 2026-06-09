@@ -1,4 +1,4 @@
-.PHONY: setup lint format test data index eval experiments app
+.PHONY: setup lint format test data index eval experiments fusion-stemming app
 
 setup:        ## Create/sync the environment (base + dev)
 	uv sync
@@ -23,6 +23,9 @@ eval:         ## FINAL test-set eval of the chosen config — run once (Phase 3)
 
 experiments:  ## Dev-set hybrid ablations: title prepend / semantic chunking
 	uv run python -m dgfip_chatbot.eval.experiments
+
+fusion-stemming:  ## Dev-set fusion x stemming sweep (reproduces reports/fusion_stemming.md)
+	uv run python -m dgfip_chatbot.eval.experiments fusion-stemming
 
 app:          ## Launch the Streamlit demo (Phase 6)
 	@echo "Streamlit demo — implemented in Phase 6."

@@ -65,15 +65,18 @@ A first look (see [`notebooks/phase1_eda.ipynb`](notebooks/phase1_eda.ipynb)):
 - **Vocabulary overlap (key signal):** most questions share many content words with their target fiche (favourable to **BM25**), but a meaningful tail does not (needs **semantic embeddings**) → together motivating a **hybrid** retriever.
 - **Caveat:** questions are LLM-generated from the fiches, so this overlap is likely **optimistic** versus real user phrasing.
 
-## Configuration
+## Results
 
-Copy `.env.example` to `.env` and fill in as needed (the `MISTRAL_API_KEY` is only used
-from Phase 4). The real `.env` is gitignored.
+Methods evaluated on **dev** (test held out): **dense** (e5-base), **BM25**, **hybrid — RRF**,
+**hybrid — score fusion**. Levers tried and **rejected** (no dev gain): stemming, semantic
+chunking, title-prepend, cross-encoder rerank, e5-large, chunk-size 128.
 
-## Status
+**Best: hybrid with confidence-aware score fusion (dense 0.5 / BM25 0.5)** — the only lever that
+beat the RRF baseline on dev. Scored **once** on the held-out test:
 
-**Phases 0–3 done — the graded retrieval core is complete.** Scaffolding, data ingestion
-(`make data`), dense retrieval (`make index`), and evaluation (`make eval`) comparing
-dense / BM25 / hybrid on a held-out test set. **Hybrid wins** — test hit@1 **0.82**, hit@3
-**0.97**, MRR **0.89**; full numbers in [`reports/eval.md`](reports/eval.md). **Next:
-Phase 4** (optional LLM answer layer) and a thin demo UI — both layered on top of this core.
+| score fusion (0.5 / 0.5) | hit@1 | hit@3 | MRR |
+|:--|--:|--:|--:|
+| dev (1 004 q) | 0.824 | 0.961 | 0.896 |
+| **test (423 q)** | **0.851** | **0.972** | **0.911** |
+
+Full tables: [`reports/eval.md`](reports/eval.md)

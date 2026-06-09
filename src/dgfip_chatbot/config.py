@@ -36,9 +36,15 @@ class Settings(BaseSettings):
     passage_prefix: str = "passage: "
     top_k: int = 5
 
+    # --- Hybrid fusion (Phase 3) ---
+    # Score-based fusion (per-query min-max normalize, then weighted sum). Score fusion beat
+    # RRF on dev; 0.5 and 0.7 tie on hit@1, so we keep the balanced 0.5/0.5 (the simpler,
+    # standard choice — see reports/fusion_stemming.md).
+    fusion_dense_weight: float = 0.5  # BM25 weight = 1 - this
+
     # --- Evaluation (Phase 3) ---
     eval_k: list[int] = [1, 3, 5, 10]  # hit@k cutoffs to report
-    rrf_c: int = 60  # Reciprocal Rank Fusion constant
+    rrf_c: int = 60  # Reciprocal Rank Fusion constant (kept for the dev experiments)
     bm25_k1: float = 1.5
     bm25_b: float = 0.75
     reports_dir: Path = PROJECT_ROOT / "reports"

@@ -9,7 +9,8 @@ class RetrievalResult:
     """One ranked fiche returned for a query."""
 
     fiche_id: int
-    score: float  # cosine in [-1, 1] for the dense retriever
+    score: float  # retriever-specific: cosine [-1,1] (dense), BM25 score >=0 (bm25),
+    # or fused [0,1] (hybrid). Only comparable within one retriever.
     titre: str
     url: str
     snippet: str  # the best-matching chunk's text (for display / grounding)
