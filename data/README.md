@@ -7,7 +7,7 @@ French**.
 ```
 data/
 ├── raw/         # the two provided CSVs (committed, treated as read-only)
-└── processed/   # derived artifacts: cleaned docs, chunks, embeddings, index (gitignored)
+└── processed/   # derived artifacts: cleaned fiches, chunks, embeddings, index (gitignored)
 ```
 
 The two files form a **labeled retrieval dataset**: a knowledge base of fiches, and a set
@@ -93,4 +93,4 @@ ground-truth **(question → correct fiche)** mapping, suitable for retrieval me
 (Top-k accuracy, MRR, recall@k), ideally reported **per theme** given the skew above.
 
 > The largest theme is **property & housing**, ahead of income declaration — the task is
-> broader than "tax declaration help." See [`../docs/business_context.md`](../docs/business_context.md).
+> broader than "tax declaration help."
