@@ -1,4 +1,4 @@
-"""Phase 1 pipeline: raw CSVs -> chunks.parquet + questions_{dev,test}.parquet.
+"""Pipeline: raw CSVs -> chunks.parquet + questions_{dev,test}.parquet.
 
 Run with ``make data`` (or ``uv run python -m dgfip_chatbot.data.build``).
 """

@@ -1,4 +1,4 @@
-"""Typed contracts for the Phase 1 records."""
+"""Typed contracts for the data records."""
 
 from pydantic import BaseModel
 

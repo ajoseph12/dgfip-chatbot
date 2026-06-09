@@ -1,1 +1,1 @@
-"""Phase 1 — loading, cleaning, and chunking the fiches + eval questions."""
+"""Loading, cleaning, and chunking the fiches + eval questions."""

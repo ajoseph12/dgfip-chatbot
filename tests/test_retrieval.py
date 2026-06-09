@@ -1,4 +1,4 @@
-"""Phase 2 tests — dense retrieval. Skipped unless the ml group is installed AND the
+"""Dense-retrieval tests. Skipped unless the ml group is installed AND the
 index has been built (`uv sync --group ml && make index`)."""
 
 import numpy as np

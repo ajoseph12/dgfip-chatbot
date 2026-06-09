@@ -128,7 +128,7 @@ Each lever measured on its own on **dev**; only the one with a clear dev gain wa
 | **+ score fusion 0.5/0.5 (adopted)**   | **0.824** | **0.961** | **0.983** | **0.996** | **0.896** |
 
 **Score fusion is the win** — hit@1 0.813 → 0.824 — and is adopted. The weight sweep
-(`fusion_stemming.md`) shows **dense 0.5 and 0.7 tie at hit@1 0.824** (only sub-noise wiggles on
+(reproduce with `make fusion-stemming`) shows **dense 0.5 and 0.7 tie at hit@1 0.824** (only sub-noise wiggles on
 the deeper metrics), so we keep the **balanced 0.5/0.5** — the simpler, standard choice. BM25-leaning
 (0.3) was worse (0.811). **Stemming gave no dev hit@1 gain** (0.813 → 0.814; only a small *test*-set
 difference, which can't drive technique selection), so it is **not** adopted.

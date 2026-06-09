@@ -3,10 +3,10 @@
 setup:        ## Create/sync the environment (base + dev)
 	uv sync
 
-data:         ## Build processed chunks + dev/test split (Phase 1)
+data:         ## Build processed chunks + dev/test split
 	uv run python -m dgfip_chatbot.data.build
 
-index:        ## Embed + cache the chunk index (Phase 2; needs `uv sync --group ml`)
+index:        ## Embed + cache the chunk index (needs `uv sync --group ml`)
 	uv run python -m dgfip_chatbot.retrieval.build
 
 lint:         ## Lint with ruff
@@ -18,7 +18,7 @@ format:       ## Auto-format with ruff
 test:         ## Run the test suite
 	uv run pytest
 
-eval:         ## FINAL test-set eval of the chosen config — run once (Phase 3)
+eval:         ## FINAL test-set eval of the chosen config — run once
 	uv run python -m dgfip_chatbot.eval.run
 
 experiments:  ## Dev-set hybrid ablations: title prepend / semantic chunking
@@ -27,5 +27,5 @@ experiments:  ## Dev-set hybrid ablations: title prepend / semantic chunking
 fusion-stemming:  ## Dev-set fusion x stemming sweep (reproduces reports/fusion_stemming.md)
 	uv run python -m dgfip_chatbot.eval.experiments fusion-stemming
 
-app:          ## Launch the Streamlit demo (Phase 6)
-	@echo "Streamlit demo — implemented in Phase 6."
+app:          ## Launch the Streamlit retrieval-chat demo (needs the ml + app groups)
+	uv run --group ml --group app streamlit run src/dgfip_chatbot/app/main.py

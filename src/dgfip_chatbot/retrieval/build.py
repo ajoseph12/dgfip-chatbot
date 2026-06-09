@@ -1,4 +1,4 @@
-"""Phase 2 index build: embed every chunk's `text` and cache the matrix + metadata.
+"""Index build: embed every chunk's `text` and cache the matrix + metadata.
 
 Run with ``make index`` (or ``uv run python -m dgfip_chatbot.retrieval.build``).
 Requires the ml group (``uv sync --group ml``) and the chunks from ``make data``.

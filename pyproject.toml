@@ -13,24 +13,20 @@ dependencies = [
     "python-dotenv>=1.0",
 ]
 
-# Optional groups installed per phase: `uv sync --group ml`, etc.
-# `dev` is installed by default on `uv sync`.
+# Optional groups: `uv sync --group ml`, etc. `dev` is installed by default on `uv sync`.
 [dependency-groups]
 dev = [
     "ruff>=0.5",
     "pytest>=8.2",
 ]
-ml = [          # Phase 2/3 — embeddings, retrieval, BM25, eval (NumPy-exact, so no faiss)
+ml = [          # embeddings, retrieval, BM25, eval (NumPy-exact, so no faiss)
     "sentence-transformers>=3.0",
     "torch>=2.2",
     "rank-bm25>=0.2",
     "tabulate>=0.9",
     "snowballstemmer>=2.2",  # experiments only — the rejected stemming sweep (not used in production)
 ]
-llm = [         # Phase 4 — Mistral answer layer
-    "mistralai>=1.0",
-]
-app = [         # Phases 5–6 — Streamlit demo
+app = [         # Streamlit demo
     "streamlit>=1.36",
 ]
 eda = [         # notebooks/ — exploratory data analysis

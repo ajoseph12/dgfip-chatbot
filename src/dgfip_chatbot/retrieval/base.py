@@ -17,7 +17,7 @@ class RetrievalResult:
 
 
 class Retriever(Protocol):
-    """A query -> ranked fiches function. Phase 2 ships `DenseRetriever`; Phase 3 adds
-    BM25 and hybrid behind this same interface so the eval loop can swap them."""
+    """A query -> ranked fiches function. DenseRetriever, BM25Retriever, and HybridRetriever
+    all implement it, so the eval loop can swap between them."""
 
     def retrieve(self, query: str, k: int = 5) -> list[RetrievalResult]: ...

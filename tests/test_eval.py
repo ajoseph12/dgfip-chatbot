@@ -1,4 +1,4 @@
-"""Phase 3 integration tests — BM25, hybrid, and the harness. Skipped unless the ml group
+"""Integration tests — BM25, hybrid, and the harness. Skipped unless the ml group
 is installed AND the index is built (`uv sync --group ml && make index`)."""
 
 import pandas as pd

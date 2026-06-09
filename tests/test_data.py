@@ -1,4 +1,4 @@
-"""Phase 1 tests — loading, cleaning, chunking, splitting, and pipeline integrity."""
+"""Tests — loading, cleaning, chunking, splitting, and pipeline integrity."""
 
 import math
 

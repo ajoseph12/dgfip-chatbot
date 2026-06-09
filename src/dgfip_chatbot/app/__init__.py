@@ -1,1 +1,1 @@
-"""Phase 6 — Streamlit chat demo (shows the answer + the suggested fiche link)."""
+"""Streamlit chat demo — shows the suggested fiche link."""

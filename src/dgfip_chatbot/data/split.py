@@ -1,4 +1,4 @@
-"""Stratified dev/test split of the eval questions (Phase 1)."""
+"""Stratified dev/test split of the eval questions."""
 
 import random
 
