@@ -21,7 +21,12 @@ def main() -> None:
     chunks = pd.read_parquet(settings.chunks_path)
     embedder = Embedder()
     # Embed the natural `text` column (as passages). Vectors come back L2-normalized.
-    embeddings = embedder.encode(chunks["text"].tolist(), kind="passage")
+    print(
+        f"embedding {len(chunks)} chunks on {settings.embedding_device} with {embedder.model_name} "
+        "(first run also downloads the model; a few minutes on CPU)…",
+        flush=True,
+    )
+    embeddings = embedder.encode(chunks["text"].tolist(), kind="passage", progress=True)
 
     np.save(settings.embeddings_path, embeddings)
     # Aligned metadata (same row order) so the retriever needs nothing else at query time.

@@ -6,9 +6,56 @@ the official source. Built as a POC for a technical test.
 
 - **Datasets:** [`data/README.md`](data/README.md)
 
+## Architecture
+
+Two offline build steps produce a chunk **index**; the Streamlit app loads that index and
+answers each question by routing it to the most relevant fiche — locally, no external calls.
+
+```mermaid
+flowchart TB
+  subgraph ingest["1 · Ingestion — offline, run once"]
+    direction LR
+    raw["data/raw/*.csv<br/>113 fiches · 1 427 questions"]
+    chunks["chunks.parquet<br/>text + text_lexical"]
+    index["embeddings.npy<br/>+ aligned meta"]
+    raw -- "make data<br/>load · clean · chunk" --> chunks
+    chunks -- "make index<br/>embed (e5-base, CPU)" --> index
+  end
+
+  subgraph serve["2 · Serving — online, per query"]
+    direction LR
+    user(["citizen"]) -- "question" --> ui["Streamlit chat<br/>(app/main.py)"]
+    ui --> hyb{{"HybridRetriever<br/>dense (e5 cosine) + BM25 (lexical)<br/>→ score fusion 0.5 / 0.5"}}
+    hyb -- "top-k fiches: titre · URL · snippet" --> ui
+  end
+
+  subgraph evalblk["3 · Evaluation — offline"]
+    direction LR
+    splits["questions_dev / test.parquet"] --> harness["eval harness<br/>hit@k · MRR"] --> rep["reports/eval.md"]
+  end
+
+  index -. "loaded read-only" .-> hyb
+  chunks -. "BM25 corpus" .-> hyb
+  raw -. "stratified split" .-> splits
+```
+
+**Flow.** `make data` cleans and chunks the 113 fiches into `chunks.parquet` — a natural-text
+column for embeddings plus a normalized `text_lexical` column for BM25 — and splits the
+questions dev/test. `make index` embeds each chunk **once** with a local e5-base model. At query
+time the app loads the cached index read-only and the **HybridRetriever** scores the question
+two ways (dense cosine + BM25), fuses them (confidence-aware, 0.5/0.5), and returns the top
+fiches with their official URLs. The only model is the small embedder — no LLM, no API.
+
 ## Quickstart
 
-Requires [`uv`](https://docs.astral.sh/uv/) (it fetches Python 3.12 automatically).
+Requires [`uv`](https://docs.astral.sh/uv/) (it manages Python 3.12 for you). Install it first if needed:
+
+```bash
+# install uv (macOS/Linux), then restart your shell so it's on PATH:
+curl -LsSf https://astral.sh/uv/install.sh | sh
+#   alternatives: pipx install uv · brew install uv · pip install uv
+#   Windows (PowerShell): irm https://astral.sh/uv/install.ps1 | iex
+```
 
 ```bash
 git clone <repo> && cd dgfip-chatbot
