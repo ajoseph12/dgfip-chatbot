@@ -7,8 +7,9 @@ __pycache__/
 # Virtual env / uv
 .venv/
 
-# Secrets
+# Secrets (commit .streamlit/config.toml, never the secrets file)
 .env
+.streamlit/secrets.toml
 
 # OS
 .DS_Store

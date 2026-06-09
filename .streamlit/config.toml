@@ -1,0 +1,13 @@
+# Streamlit config for the demo.
+#
+# fileWatcherType = "none": Streamlit's default watcher walks sys.modules and pokes
+# `transformers`' lazy-module machinery, which tries to import a *vision* model module
+# (needs torchvision, which we don't install — we only do text embeddings) and crashes the
+# app. Disabling the watcher avoids that. Trade-off: no hot-reload on edit — just re-run
+# `make app`. This is the documented fix for Streamlit + transformers/torch.
+[server]
+fileWatcherType = "none"
+headless = true
+
+[browser]
+gatherUsageStats = false
